@@ -28,7 +28,7 @@ k= 5 # number of clusters
 
 ############## Create a 3D array by stacking images #############################
 
-arr= np.array([np.array(Image.open(os.path.join(path,fname))) for fname in file])
+arr= np.array([np.array(Image.open(os.path.join(path,fname))) for fname in Image_list])
 print("Shape of the array:", arr.shape)
 
 
@@ -39,7 +39,7 @@ centers=[[] for i in range(k)]
 for i in range(k):
   x=random.randrange(h)
   y=random.randrange(w)
-  for rep in range (len(file)):
+  for rep in range (len(Image_list)):
      cent=arr[rep][x,y]
      centers[i].append(cent)
 
@@ -87,7 +87,7 @@ while not (np.array_equal(centers,oldcentroids)):
     for  y in range(w):
       print("running:", x,y)
       pixel_pt=[]
-      for image in range(len(file)):
+      for image in range(len(Image_list)):
         pixel_pt.append(arr[image][x,y])
       labels[x,y]=calculatedistance(pixel_pt,centers)
   for c in range(len(clus)):
@@ -100,10 +100,10 @@ else:
     
 
 ##########################   Add color based on clusers    ##############################
-
+label=np.array(labels).astype(int)
 #def plotcolmap(ar,f):
 cmap, norm = from_levels_and_colors([0,1,2,3,4],['red','blue','green','yellow'])
-plt.imshow(ar, cmap=cmap, norm=norm)  
+plt.imshow(label, cmap=cmap, norm=norm)  
 plt.title('colormap_'+str(f)+'title)      
     
     
